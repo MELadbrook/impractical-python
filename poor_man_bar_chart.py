@@ -1,17 +1,18 @@
 """Create a simple bar chart to show number of each letter in a sentence."""
 
 from _collections import defaultdict
+from pprint import pprint
 
 
 def gather_letters():
-    """Create a bar chart of letters from a input setence."""
+    """Create a bar chart of letters from a input sentence."""
     while True:
         sentence = input("Type a sentence: \n")
         print("\n")
-        d = defaultdict(int)
+        letters = defaultdict(int)
         for letter in sentence:
-            d[letter] += 1
-        d.items()
+            letters[letter] += 1
+        pprint(letters, width=1)
 
 
 if __name__ == "__main__":
