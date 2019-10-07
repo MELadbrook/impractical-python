@@ -3,6 +3,7 @@ import load_dictionary
 
 word_list = load_dictionary.load('palindromes_words.txt')
 
+
 # find word-pair plaingrams
 def find_palingrams():
     """Find dictionary palingrams."""
@@ -17,6 +18,7 @@ def find_palingrams():
                 if word[:i] == rev_word[end-i:]and rev_word[:end-i]in word_list:
                     pali_list.append((rev_word[:end-i], word))
     return pali_list
+
 
 palingrams = find_palingrams()
 # sort palingrams on first word
