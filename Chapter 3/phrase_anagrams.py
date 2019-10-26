@@ -28,7 +28,7 @@ def find_anagrams(name, word_list):
     print()
     print("Remaining letters = {}".format(name))
     print("Number of remaining letters = {}".format(len(name)))
-    print("Number od remaining (real word) anagrams = {}".format(len(anagrams)))
+    print("Number of remaining (real word) anagrams = {}".format(len(anagrams)))
 
 def process_choice(name):
     """Check user choice for validity, return choice & leftover letters."""
@@ -65,7 +65,7 @@ def main():
             print("Length of anagram phrase = {}".format(len(temp_phrase)))
 
             find_anagrams(name, dict_file)
-            print("Current anagram phrase =", end=" ")
+            print("Current anagram phrase = {}".format(phrase), end=" ")
             print(phrase, file=sys.stderr)
 
             choice, name = process_choice(name)
@@ -73,10 +73,10 @@ def main():
 
         elif len(temp_phrase) == limit:
             print("\n*****FINISHED!!!*****\n")
-            print("Anagram of name =", end=" ")
+            print("Anagram of name = {}".format(phrase), end=" ")
             print(phrase, file=sys.stderr)
             print()
-            try_again = input('\n\nTry agian? (Press Enter else "n" to quit)\n ')
+            try_again = input('\n\nTry again? (Press Enter else "n" to quit)\n ')
             if try_again.lower() == "n":
                 running = False
                 sys.exit()
