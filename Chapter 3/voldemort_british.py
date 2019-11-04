@@ -73,3 +73,17 @@ def cv_map_filter(name, filtered_cv_map):
             filter_1.add(candidate)
     print("# choices after filter_1 = {}".format(len(filter_1)))
     return filter_1
+
+
+def trigram_filter(filter_1, trigrams_filtered):
+    """Remove unlikely trigrams from permutations."""
+    filtered = set()
+    for candidate in filter_1:
+        for triplet in trigrams_filtered:
+            triplet = triplet.lower()
+            if triplet in candidate:
+                filtered.add(candidate)
+    filter_2 = filter_1 - filtered
+    print("# of choices after filter_2 = {}".format(len(filter_2)))
+    return filter_2
+
