@@ -7,7 +7,7 @@ import load_dictionary
 
 def main():
     """Load files, run filters, allow user to view anagrams by 1st letter."""
-    name = 'tmvoordle'
+    name = 'falacci'
     name = name.lower()
 
     word_list_ini = load_dictionary.load('palindromes_words.txt')
