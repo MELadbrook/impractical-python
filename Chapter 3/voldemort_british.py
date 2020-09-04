@@ -104,3 +104,22 @@ def letter_pair_filter(filter_2):
     if 'voldemort' in filter_3:
         print("Voldemort found!", file=sys.stderr)
     return filter_3
+
+def view_by_letter(name, filter_3):
+    """Filter to angagrams starting with input letter."""
+    print("Remaining letters = {}".format(name))
+    first = input("select a starting letter or press Enter to see all: ")
+    subset = []
+    for candidate in filter_3:
+        if candidate.startswith(first):
+            subset.append(candidate)
+    print(*sorted(subset), sep='\n')
+    print("Number of choices starting with {} = {}".format(first, len(subset)))
+    try_again = input("Try again? (Press Enter else and other key to Exit):")
+    if try_again.lower() == '':
+        view_by_letter(name, filter_3)
+    else:
+        sys.exit()
+
+if __name__ == '__main__':
+    main()
