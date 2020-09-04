@@ -84,3 +84,23 @@ def trigram_filter(filter_1, trigrams_filtered):
     filter_2 = filter_1 - filtered
     print("# of choices after filter_2 = {}".format(len(filter_2)))
     return filter_2
+
+def letter_pair_filter(filter_2):
+    """Remove unlikely letter-pairs from permutations."""
+    filtered = set()
+    rejects = ['dt', 'lr', 'md', 'ml', 'mr', 'mt', 'mv',
+               'td', 'tv', 'vd', 'vl', 'vm', 'vr', 'vt']
+    first_pair_rejects = ['ld', 'lm', 'lt', 'lv', 'rd',
+                          'rl', 'rm', 'rt', 'rv', 'tl', 'tm']
+    for candidate in filter_2:
+        for r in rejects:
+            if r in candidate:
+                filtered.add(candidate)
+        for fp in first_pair_rejects:
+            if candidate.startswith(fp):
+                filtered.add(candidate)
+    filter_3 = filter_2 - filtered
+    print("# of choices after filter_3 = {}".format(len(filter_3)))
+    if 'voldemort' in filter_3:
+        print("Voldemort found!", file=sys.stderr)
+    return filter_3
