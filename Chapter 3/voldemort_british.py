@@ -5,6 +5,7 @@ from itertools import permutations
 from collections import Counter
 import load_dictionary
 
+
 def main():
     """Load files, run filters, allow user to view anagrams by 1st letter."""
     name = 'falacci'
@@ -20,6 +21,7 @@ def main():
     filter_3 = letter_pair_filter(filter_2)
     view_by_letter(name, filter_3)
 
+
 def prep_words(name, word_list_ini):
     """Prep word list for finding anagrams."""
     print("length initial word_list = {}".format(len(word_list_ini)))
@@ -28,6 +30,7 @@ def prep_words(name, word_list_ini):
                  if len(word) == len_name]
     print("length of new word_list = {}".format(len(word_list)))
     return word_list
+
 
 def cv_map_words(word_list):
     """Map letters in words to consonants & vowels."""
@@ -55,6 +58,7 @@ def cv_map_words(word_list):
     print("length filtered_cv_map = {}". format(len(filtered_cv_map)))
     return filtered_cv_map
 
+
 def cv_map_filter(name, filtered_cv_map):
     """Remove permutations of words based on unlikely cons-vowel combos."""
     perms = {''.join(i) for i in permutations(name)}
@@ -73,6 +77,7 @@ def cv_map_filter(name, filtered_cv_map):
     print("# choices after filter_1 = {}".format(len(filter_1)))
     return filter_1
 
+
 def trigram_filter(filter_1, trigrams_filtered):
     """Remove unlikely trigrams from perumtations."""
     filtered = set()
@@ -84,6 +89,7 @@ def trigram_filter(filter_1, trigrams_filtered):
     filter_2 = filter_1 - filtered
     print("# of choices after filter_2 = {}".format(len(filter_2)))
     return filter_2
+
 
 def letter_pair_filter(filter_2):
     """Remove unlikely letter-pairs from permutations."""
@@ -105,6 +111,7 @@ def letter_pair_filter(filter_2):
         print("Voldemort found!", file=sys.stderr)
     return filter_3
 
+
 def view_by_letter(name, filter_3):
     """Filter to angagrams starting with input letter."""
     print("Remaining letters = {}".format(name))
@@ -120,6 +127,7 @@ def view_by_letter(name, filter_3):
         view_by_letter(name, filter_3)
     else:
         sys.exit()
+
 
 if __name__ == '__main__':
     main()
