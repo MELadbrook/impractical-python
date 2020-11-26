@@ -13,7 +13,7 @@ def make_digrams(word):
         print(i)
         digrams.append(word[count:count + 2])
         count += 1
-    return digrams
+    return set(digrams)
 
 
-print(make_digrams('ladbrook'))
+print(make_digrams('volvo'))
