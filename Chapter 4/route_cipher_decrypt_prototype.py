@@ -82,3 +82,21 @@ for i in range(ROWS):
         plaintext += word + ' '
 
 print("\nplaintext = {}".format(plaintext))
+
+
+def main():
+    """Run program and print decrypted plaintext."""
+    print("\nCiphertext = {}".format(ciphertext))
+    print("Trying {} columns".format(COLS))
+    print("Trying {} rows".format((ROWS)))
+    print("Trying key = {}".format(key))
+
+    # split elements into words, not letters
+    cipherlist = list(ciphertext.split())
+    validate_col_row(cipherlist)
+    key_int = key_to_int(key)
+    translation_matrix = build_matrix(key_int, cipherlist)
+    plaintext = decrypt(translation_matrix)
+
+    print("Plaintext = {}".format(plaintext))
+
