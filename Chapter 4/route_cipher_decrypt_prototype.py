@@ -48,48 +48,13 @@ key = """-1 2 -3 4"""
 
 # split elements into words, not letters
 
-cipherlist = list(ciphertext.split())
-
-# initialise variables
-
-
-translation_matrix = [None] * COLS
-plaintext = ''
-start = 0
-stop = ROWS
-
-# turn key_int into list of integers:
-key_int = [int(i) for i in key.split()]
-
-# turn columns into items in list of lists:
-for k in key_int:
-    if k < 0: # reading bottom-to-top of column
-        col_items = cipherlist[start:stop]
-    elif k > 0: # reading top-to-bottom of column
-        col_items = list(reversed(cipherlist[start:stop]))
-    translation_matrix[abs(k) - 1] = col_items
-    start += ROWS
-    stop += ROWS
-
-print("\nciphertext = {}".format(ciphertext))
-print("\ntranslation matrix = ", *translation_matrix, sep="\n")
-print("\nkey length = {}".format(len(key_int)))
-
-# loop through nested lists popping off last item to new list:
-for i in range(ROWS):
-    for col_items in translation_matrix:
-        word = str(col_items.pop())
-        plaintext += word + ' '
-
-print("\nplaintext = {}".format(plaintext))
-
 
 def validate_col_row(cipherlist):
     """Check that input columns & rows are valid vs. message length."""
     factors = []
     len_cipher = len(cipherlist)
     for i in range(2, len_cipher): # range excludes 1-column ciphers
-        if len_cipher % 1 == 0:
+        if len_cipher % i == 0:
             factors.append(i)
     print("\nLength of cipher = {}".format(len_cipher))
     print("Acceptable column/row values include: {}".format(factors))
@@ -113,6 +78,32 @@ def key_to_int(key):
         return key_int
 
 
+def build_matrix(key_int, cipherlist):
+    """Turn every n items into a new item in a list of lists."""
+    translation_matrix = [None] * COLS
+    start = 0
+    stop = ROWS
+    for k in key_int:
+        if k < 0: # read bottom-to-top of column
+            col_items = cipherlist[start:stop]
+        elif k > 0: # read top-to-bottom of column
+            col_items = list((reversed(cipherlist[start:stop])))
+        translation_matrix[abs(k) - 1] = col_items
+        start += ROWS
+        stop += ROWS
+    return translation_matrix
+
+
+def decrypt(translation_matrix):
+    """Loop through nested lists popping off last item to a string."""
+    plaintext = ''
+    for i in range(ROWS):
+        for matrix_col in translation_matrix:
+            word = str(matrix_col.pop())
+            plaintext += word + ' '
+    return plaintext
+
+
 def main():
     """Run program and print decrypted plaintext."""
     print("\nCiphertext = {}".format(ciphertext))
@@ -129,3 +120,6 @@ def main():
 
     print("Plaintext = {}".format(plaintext))
 
+
+if __name__ == '__main__':
+    main()
