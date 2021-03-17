@@ -26,3 +26,42 @@ ES"""
 #=================================================================
 
 
+def prep_ciphertext(ciphertext):
+    """Remove whitespace."""
+    message = "".join(ciphertext.split())
+    print("\nciphertext = {}".format(ciphertext))
+    return message
+
+
+def split_rails(message):
+    """Split message in two, always rounding UP for 1st row."""
+    row_1_len = math.ceil(len(message)/2)
+    row1 = (message[:row_1_len])
+    row2 = (message[row_1_len:])
+    return row1, row2
+
+
+def decrypt(row1, row2):
+    """Build list with every other letter in 2 strings & print."""
+    plaintext = []
+    for r1, r2 in itertools.zip_longest(row1, row2):
+        plaintext.append(r1.lower())
+        plaintext.append(r2.lower())
+    if None in plaintext:
+        plaintext.pop()
+    print("rail 1 = {}".format(row1))
+    print("rail 2 = {}".format(row2))
+    print("\nplaintext = {}".format((''.join(plaintext))))
+
+
+def main():
+    """Run program to decrypt 2-rail rail fence cipher."""
+    message = prep_ciphertext((ciphertext))
+    row1, row2 = split_rails(message)
+    decrypt(row1, row2)
+
+
+if __name__ == '__main__':
+    main()
+
+
