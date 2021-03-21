@@ -29,3 +29,38 @@ def solve_null_cipher(message, lookahead):
         print("Using offset of {} after punctuation = {}".
               format(i, plaintext))
     print()
+
+
+def main():
+    """Load text, solve null cipher."""
+    # load & process message:
+    filename = input("\nEnter full filename for message to translate: ")
+    try:
+        loaded_message = load_text(filename)
+    except IOError as e:
+        print("{}. Terminating program.".format(e), file=sys.stderr)
+        sys.exit(1)
+    print("\nORIGINAL MESSAGE = ")
+    print("{}".format(loaded_message), "\n")
+    print("\nList of punctuation marks to check = {}".
+          format(string.punctuation), "\n")
+
+    # remove whitespace:
+    message = ''.join(loaded_message.split())
+
+    # get range of possible cipher keys from user:
+    while True:
+        lookahead = input("\nNumber of letters to check after "
+                          "punctuation mark: ")
+        if lookahead.isdigit():
+            lookahead = int(lookahead)
+            break
+        else:
+            print("Please input a number.", file=sys.stderr)
+    print()
+
+    # run function to decode cipher
+    solve_null_cipher(message, lookahead)
+
+
+
