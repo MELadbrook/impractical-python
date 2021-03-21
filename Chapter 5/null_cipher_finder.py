@@ -63,4 +63,7 @@ def main():
     solve_null_cipher(message, lookahead)
 
 
+if __name__ == '__main__':
+    main()
+
 
