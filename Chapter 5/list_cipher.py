@@ -13,7 +13,7 @@ print(message, "\n")
 message = "".join(message.split())
 
 # open dictionary file
-word_list = load_dictionary.load('2of4brif.txt')
+word_list = load_dictionary.load('words.txt')
 
 # build vocabulary word list with hidden message
 vocab_list = []
