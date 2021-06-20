@@ -43,3 +43,25 @@ def select(population, to_retain):
     selected_males = males[-to_retain_by_sex:]
     return selected_males, selected_females
 
+
+def breed(males, females, litter_size):
+    """Crossover genes among members (weights) of a population."""
+    random.shuffle(males)
+    random.shuffle(females)
+    children = []
+    for male, female in zip(males, females):
+        for child in range(litter_size):
+            child = random.randint(female, male)
+            children.append(child)
+    return children
+
+
+def mutate(children, mutate_odds, mutate_min, mutate_max):
+    """Randomly alter rate weights using input odds & fractional changes."""
+    for index, rate in enumerate(children):
+        if mutate_odds >= random.random():
+            children[index] = round(rat * random.uniform(mutate_min,
+                                                         mutate_max))
+    return children
+
+
