@@ -52,7 +52,7 @@ def make_exceptions_dict(exceptions_set):
     for word in exceptions_set:
         while True:
             num_sylls = input("Enter number syllables in {}: ".format(word))
-            if num_sylls.isdigot():
+            if num_sylls.isdigit():
                 break
             else:
                 print("               Not a valid answer!", file=sys.stderr)
