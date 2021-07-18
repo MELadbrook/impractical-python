@@ -71,7 +71,7 @@ def make_exceptions_dict(exceptions_set):
         choice = input("\nEnter choice: ")
         if choice == '0':
             break
-        elif choice = '1':
+        elif choice == '1':
             word = input("\nWord to add or change: ")
             missing_words[word] = int(input("Enter number syllables in {}: "
                                             .format(word)))
@@ -79,9 +79,22 @@ def make_exceptions_dict(exceptions_set):
             word = input("\nEnter word to delete: ")
             missing_words.pop(word, None)
 
-    print("\nNew words or syllable chnages:")
+    print("\nNew words or syllable changes:")
     pprint.pprint(missing_words, width=1)
 
     return missing_words
+
+
+def save_exceptions(missing_words):
+    """Save exceptions dictionary as json file."""
+    json_string = json.dumps(missing_words)
+    f = open('missing_words.json', 'w')
+    f.write(json_string)
+    f.close()
+    print("\nFile saved as missing_words.json")
+
+
+if __name__ == '__main__':
+    main()
 
 
