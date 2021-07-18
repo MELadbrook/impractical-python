@@ -28,3 +28,22 @@ def count_syllables(words):
                     if phoneme[-1].isdigit():
                         num_sylls += 1
     return num_sylls
+
+
+def main():
+    while True:
+        print("Syllable Counter")
+        word = input("Enter word or phrase; else press Enter to Exit: ")
+        if word == '':
+            sys.exit()
+        try:
+            num_syllables = count_syllables(word)
+            print("number of syllables in {} is: {}"
+                  .format(word, num_syllables))
+            print()
+        except KeyError:
+            print("Word not found. Try again.\n", file=sys.stderr)
+
+            
+if __name__ == '__main__':
+    main()
