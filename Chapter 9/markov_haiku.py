@@ -84,3 +84,30 @@ def word_after_double(prefix, suffix_map_2, current_syls, target_syls):
                 accepted_words.append(candidate)
     logging.debug("accepted words after \"%s\" = %s\n",
                   prefix, set(accepted_words))
+
+
+def haiku_line(suffix_map_1, suffix_map_2, corpus, end_prev_line, target_syls):
+    """Build a haiku line from a training corpus and return it."""
+    line = '2/3'
+    line_syls = 0
+    current_line = []
+    if len(end_prev_line) == 0:  # build first line
+        line = '1'
+        word, num_syls = random_word(corpus)
+        current_line.append(word)
+        line_syls += num_syls
+        word_choices = word_after_single(word, suffix_map_1,
+                                         line_syls, target_syls)
+        while len(word_choices) == 0:
+            prefix = random.choice(corpus)
+            logging.debug("new random prefix = %s", prefix)
+            word_choices = word_after_single(prefix, suffix_map_1,
+                                             line_syls, target_syls)
+        word = random.choice(word_choices)
+        num_syls = count_syllables(word)
+        logging.debug("word & syllables = %s %s", word, num_syls)
+        line_syls += num_syls
+        current_line.append(word)
+        if line_syls == target_syls:
+            end_prev_line.extend(current_line[-2:])
+            return current_line, end_prev_line
