@@ -112,32 +112,32 @@ def haiku_line(suffix_map_1, suffix_map_2, corpus, end_prev_line, target_syls):
         if line_syls == target_syls:
             end_prev_line.extend(current_line[-2:])
             return current_line, end_prev_line
-        else:  # build lines 2 and 3
-            current_line.extend(end_prev_line)
+    else:  # build lines 2 and 3
+        current_line.extend(end_prev_line)
 
-        while True:
-            logging.debug("line = %s\n", line)
-            prefix = current_line[-2] + ' ' + current_line[-1]
+    while True:
+        logging.debug("line = %s\n", line)
+        prefix = current_line[-2] + ' ' + current_line[-1]
+        word_choices = word_after_double(prefix, suffix_map_2,
+                                         line_syls, target_syls)
+        while len(word_choices) == 0:
+            index = random.randint(0, len(corpus) - 2)
+            prefix = corpus[index] + ' ' + corpus[index + 1]
+            logging.debug("new random prefix = %s", prefix)
             word_choices = word_after_double(prefix, suffix_map_2,
                                              line_syls, target_syls)
-            while len(word_choices) == 0:
-                index = random.randint(0, len(corpus) - 2)
-                prefix = corpus[index] + ' ' + corpus[index + 1]
-                logging.debug("new random prefix = %s", prefix)
-                word_choices = word_after_double(prefix, suffix_map_2,
-                                                 line_syls, target_syls)
-            word = random.choice(word_choices)
-            num_syls = count_syllables(word)
-            logging.debug("word & syllables = %s %s", word, num_syls)
+        word = random.choice(word_choices)
+        num_syls = count_syllables(word)
+        logging.debug("word & syllables = %s %s", word, num_syls)
 
-            if line_syls + num_syls > target_syls:
-                continue
-            elif line_syls + num_syls < target_syls:
-                current_line.append(word)
-                line_syls += num_syls
-            elif line_syls + num_syls == target_syls:
-                current_line.append(word)
-                break
+        if line_syls + num_syls > target_syls:
+            continue
+        elif line_syls + num_syls < target_syls:
+            current_line.append(word)
+            line_syls += num_syls
+        elif line_syls + num_syls == target_syls:
+            current_line.append(word)
+            break
 
     end_prev_line = []
     end_prev_line.extend(current_line[-2:])
@@ -192,12 +192,12 @@ def main():
             first_line, end_prev_line1 = haiku_line(suffix_map_1, suffix_map_2,
                                                     corpus, end_prev_line, 5)
             final.append(first_line)
-            line2, end_prev_line2 = haiku_line(suffix_map_1, suffix_map_2,
+            line, end_prev_line2 = haiku_line(suffix_map_1, suffix_map_2,
                                               corpus, end_prev_line1, 7)
-            final.append(line2)
-            line3, end_prev_line3 = haiku_line(suffix_map_1, suffix_map_2,
+            final.append(line)
+            line, end_prev_line3 = haiku_line(suffix_map_1, suffix_map_2,
                                               corpus, end_prev_line2, 5)
-            final.append(line3)
+            final.append(line)
 
         # regenerate line 2
         elif choice == "2":
