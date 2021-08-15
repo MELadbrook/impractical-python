@@ -15,7 +15,7 @@ def load_training_file(file):
         return raw_haiku
 
 
-def prop_training(raw_haiku):
+def prep_training(raw_haiku):
     """Load string, remove newline, split words on spaces, and return list."""
     corpus = raw_haiku.replace('\n', ' ').split()
     return corpus
@@ -84,6 +84,7 @@ def word_after_double(prefix, suffix_map_2, current_syls, target_syls):
                 accepted_words.append(candidate)
     logging.debug("accepted words after \"%s\" = %s\n",
                   prefix, set(accepted_words))
+    return accepted_words
 
 
 def haiku_line(suffix_map_1, suffix_map_2, corpus, end_prev_line, target_syls):
@@ -147,3 +148,105 @@ def haiku_line(suffix_map_1, suffix_map_2, corpus, end_prev_line, target_syls):
         final_line = current_line[2:]
 
     return final_line, end_prev_line
+
+
+def main():
+    """Give user choice of building a haiku of modifying an existing haiku."""
+    intro = """\n
+    A thousand monkeys at a thousand typewriters...
+    or one computer...can sometimes produce a haiku.\n"""
+    print("{}".format(intro))
+
+    raw_haiku = load_training_file("train.txt")
+    corpus = prep_training(raw_haiku)
+    suffix_map_1 = map_word_to_word(corpus)
+    suffix_map_2 = map_2_words_to_word(corpus)
+    final = []
+
+    choice = None
+    while choice != "0":
+
+        print(
+            """
+            Japanese Haiku Generator
+            
+            0 - Quit
+            1 - Generate a Haiku
+            2 - Regenerate Line 2
+            3 - Regenerate Line 3
+            """
+            )
+
+        choice = input("Choice: ")
+        print()
+
+        # exit
+        if choice == "0":
+            print("Sayonara.")
+            sys.exit()
+
+        # generate a full haiku
+        elif choice == "1":
+            final = []
+            end_prev_line = []
+            first_line, end_prev_line1 = haiku_line(suffix_map_1, suffix_map_2,
+                                                    corpus, end_prev_line, 5)
+            final.append(first_line)
+            line2, end_prev_line2 = haiku_line(suffix_map_1, suffix_map_2,
+                                              corpus, end_prev_line1, 7)
+            final.append(line2)
+            line3, end_prev_line3 = haiku_line(suffix_map_1, suffix_map_2,
+                                              corpus, end_prev_line2, 5)
+            final.append(line3)
+
+        # regenerate line 2
+        elif choice == "2":
+            if not final:
+                print("Please generate a full haiku first (Option 1).")
+                continue
+            else:
+                line, end_prev_line2 = haiku_line(suffix_map_1, suffix_map_2,
+                                                  corpus, end_prev_line1, 7)
+                final[1] = line
+
+        # regenerate line 3
+        elif choice == "3":
+            if not final:
+                print("Please generate a full haiku first (Option 1).")
+                continue
+            else:
+                line, end_prev_line3 = haiku_line(suffix_map_1, suffix_map_2,
+                                                  corpus, end_prev_line2, 5)
+                final[2] = line
+
+        # some unknown choice
+        else:
+            print("\nSorry, but that isn't a valid choice.", file=sys.stderr)
+            continue
+
+        # display results
+        print()
+        print("First line = ", end="")
+        print(" ".join(final[0]), file=sys.stderr)
+        print("Second line = ", end="")
+        print(" ".join(final[1]), file=sys.stderr)
+        print("Third line = ", end="")
+        print(" ".join(final[2]), file=sys.stderr)
+        print()
+
+    input("\n\nPress the Enter key to exit.")
+
+if __name__ == '__main__':
+    main()
+
+
+
+
+
+
+
+
+
+
+
+
